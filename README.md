@@ -10,7 +10,7 @@ In this workflow AWS SageMaker, Lambda, Step Functions and Model Monitor are use
 - AWS Model Monitor
 - AWS Step Functions orchestration
 - AWS S3 storage
-- Data Preperation
+- Data Preparation
 
 -------------------
 #### AWS Step Functions
