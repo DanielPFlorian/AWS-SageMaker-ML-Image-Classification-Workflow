@@ -13,5 +13,8 @@ In this workflow AWS SageMaker, Lambda, Step Functions and Model Monitor are use
 - Data Preperation
 
 -------------------
+#### AWS Step Functions
 ![StepFunctions](./img/StepFunction-Screenshot.jpg)
+
+#### Inference Confidence Plot
 ![plot](./img/plot.png)
