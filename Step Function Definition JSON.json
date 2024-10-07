@@ -1,0 +1,62 @@
+{
+    "Comment": "SconesUnlimited bike or motorcycle ML workflow",
+    "StartAt": "Lambda Invoke-serializeImageData",
+    "States": {
+        "Lambda Invoke-serializeImageData": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:641948205787:function:serializeImageData:$LATEST",
+                "Payload.$": "$"
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 2
+                }
+            ],
+            "Next": "Lambda Invoke-imageClassifier",
+            "OutputPath": "$.Payload.body"
+        },
+        "Lambda Invoke-imageClassifier": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:641948205787:function:imageClassifier:$LATEST",
+                "Payload.$": "$"
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 2
+                }
+            ],
+            "Next": "Lambda Invoke-threshhold",
+            "OutputPath": "$.Payload.body"
+        },
+        "Lambda Invoke-threshhold": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:641948205787:function:threshhold:$LATEST",
+                "Payload.$": "$"
+            },
+            "End": true,
+            "OutputPath": "$.Payload.body"
+        }
+    }
+}
